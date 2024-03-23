@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scan Results</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            margin-bottom: 20px;
+            color: #007bff;
+        }
+        p {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+        }
+        ul li {
+            margin-bottom: 5px;
+        }
+        .progress {
+            background-color: #f8f9fa;
+            border-radius: 5px;
+            padding: 10px;
+        }
+        .progress-bar {
+            background-color: #28a745;
+            border-radius: 5px;
+            height: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Scan Results</h1>
+        <p>Scanning IP Address: {{ ip_address }}</p>
+
+        <h2>Open Ports:</h2>
+        <ul>
+            {% for port in open_ports %}
+                <li>{{ port }}</li>
+            {% endfor %}
+        </ul>
+
+        <h2>Vulnerabilities:</h2>
+        <ul>
+            {% for service, cves in vulnerabilities.items() %}
+                <li>{{ service }}:
+                    <ul>
+                        {% for cve in cves %}
+                            <li>{{ cve }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+
+        <h2>Scan Progress:</h2>
+        <div class="progress">
+            <div class="progress-bar" style="width: {{ progress_percentage }}%"></div>
+        </div>
+        <p>Stats: {{ elapsed_time }} elapsed; {{ completed_hosts }} hosts completed ({{ up_hosts }} up), {{ undergoing_scan }} undergoing Connect Scan</p>
+        <p>Connect Scan Timing: About {{ progress_percentage }}% done; ETC: {{ estimated_time_remaining }} remaining</p>
+    </div>
+</body>
+</html>
+
